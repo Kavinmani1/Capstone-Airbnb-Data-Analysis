@@ -1,0 +1,264 @@
+root@DESKTOP-1I4U3C3:~# su - hdoop
+hdoop@DESKTOP-1I4U3C3:~$ mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 2
+Server version: 5.7.42 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql>create database airbnb;
+Query OK, 1 row affected (0.39 sec)
+
+mysql> use airbnb;
+Database changed
+CREATE TABLE airbnb_listings (
+              id INT PRIMARY KEY,
+              name VARCHAR(255),
+              host_id INT,
+              host_name VARCHAR(255),
+              neighbourhood VARCHAR(255),
+              neighbourhood_group_cleansed VARCHAR(255),
+              latitude DECIMAL(10, 8),
+              longitude DECIMAL(11, 8),
+              room_type VARCHAR(50),
+              price VARCHAR(255),
+              minimum_nights INT,
+              availability_365 INT,
+              number_of_reviews INT,
+              last_review DATE,
+              calculated_host_listings_count INT,
+              reviews_per_month DECIMAL(5, 2),
+              city VARCHAR(255),
+              state VARCHAR(255),
+              amenities TEXT,
+              property_type VARCHAR(255)
+          );
+Query OK, 0 rows affected (1.78 sec)
+mysql> show tables
+    -> ;
++------------------+
+| Tables_in_airbnb |
++------------------+
+| airbnb_listings  |
++------------------+
+1 row in set (0.00 sec)
+
+mysql>  LOAD DATA local INFILE 'capstone_sample_final.csv' INTO TABLE airbnb_listings fields terminated by ','lines terminated by '\n' IGNORE 1 lines;
+Query OK, 3818 rows affected, 18157 warnings (3.97 sec)
+Records: 3818  Deleted: 0  Skipped: 0  Warnings: 18157
+mysql> select name,latitude,longitude,room_type from  airbnb_listings limit 200;
++-------------------------------------+-------------+---------------+-----------------+
+| name                                | latitude    | longitude     | room_type       |
++-------------------------------------+-------------+---------------+-----------------+
+| Sweet_Seattle_Urban_Homestead_2_Bdr | 47.52984647 | -122.27583952 | Entire home/apt |
+| Sunrise_in_Seattle_Master_Suite     | 47.68725101 | -122.31313027 | Private room    |
+| Cozy_Studio_min_to_downtown_WiFi    | 47.52397950 | -122.35989060 | Entire home/apt |
+| Fab_private_seattle_urban_cottage   | 47.65410861 | -122.33760529 | Entire home/apt |
+| launchingpadlandingpad_             | 47.61539738 | -122.32563956 | Entire home/apt |
+| Golden_Sun_vintage_warmsunny        | 47.55061970 | -122.32013541 | Private room    |
+| Downtown_Convention_Ctr_BB__Nice    | 47.60800998 | -122.32873867 | Private room    |
+| The_Adorable_Sweet_Orange_Craftsman | 47.55538926 | -122.38473863 | Entire home/apt |
+| The_Coolest_Tangerine_Dream_MIL_    | 47.55670065 | -122.38497351 | Entire home/apt |
+| the_down_home_central_and_fab       | 47.65478743 | -122.33651988 | Entire home/apt |
+| Upscale_Seattle_Hotel_Alternative_  | 47.69571858 | -122.31194392 | Private room    |
+| Private_2_Rooms__1_Bath_            | 47.69720097 | -122.31348103 | Private room    |
+| the_orange_house_quiet_n_central_   | 47.65447679 | -122.33646426 | Entire home/apt |
+| Hotel_Room__Bath_Alternative        | 47.69573695 | -122.31316341 | Private room    |
+| THE_URBAN_OASIS_Great_Location      | 47.61854651 | -122.32631807 | Entire home/apt |
+| Quiet_Cozy_Upstairs_BR_Green_Lake   | 47.68724568 | -122.33469570 | Private room    |
+| Green_Lake_Private_Ground_Floor_BR  | 47.68826555 | -122.33585552 | Private room    |
+| West_Seattle_The_Starlight_Studio   | 47.55538173 | -122.38622263 | Entire home/apt |
+| 1_Bedroom_Downtown_Seattle_Oasis    | 47.61561135 | -122.34592673 | Entire home/apt |
+| 1_Bedroom_Cosmopolitan_Water_View_  | 47.61361553 | -122.34705781 | Entire home/apt |
+| 2_Bedroom_Downtown_Seattle_Oasis    | 47.61642986 | -122.34634407 | Entire home/apt |
+| 2_BR_Spacious_MotherinLaw_Condo     | 47.69538567 | -122.31307495 | Entire home/apt |
+| Cottage_in_the_Heart_of_Ballard     | 47.67333939 | -122.39512028 | Entire home/apt |
+| Victorian_in_the_Heart_of_Ballard   | 47.67360710 | -122.39380286 | Entire home/apt |
+| Harrison_Modern_Mad_Men_Suite_      | 47.62236602 | -122.31591800 | Entire home/apt |
+| 3bd_2bt_great_bargain__sleep_610    | 47.53427640 | -122.28160623 | Entire home/apt |
+| 1_Bedroom_Modern_Water_View_Condo   | 47.61419607 | -122.34445769 | Entire home/apt |
+| Luxury_Treehouse_Garden_Cottage     | 47.66840976 | -122.27024690 | Entire home/apt |
+| 2_Bedroom_Water_View_Oasis          | 47.61539627 | -122.34866375 | Entire home/apt |
+| Beautiful_Quiet_Friendly_Ballard    | 47.67941169 | -122.37053963 | Entire home/apt |
+| Adult_Only_Quiet_2br_Capitol_Hill   | 47.61742598 | -122.32675627 | Entire home/apt |
+| Cozy_Ballard_Apartment              | 47.67890136 | -122.38186327 | Entire home/apt |
+| Ballard_Walk_to_Salt_Water_Beach    | 47.68804808 | -122.39231000 | Entire home/apt |
+| 3brmodernfire_place_chef_kitchen    | 47.65302813 | -122.34268278 | Entire home/apt |
+| Home_Away_From_Home__MIL_Suite____  | 47.56034898 | -122.31402319 | Entire home/apt |
+| Big_sunny_central_house_with_view   | 47.65055156 | -122.33058866 | Private room    |
+| Cottage_in_West_Seattle__Guest_BR   | 47.55663242 | -122.37720365 | Private room    |
+| Capitol_Hill_Suite__Free_Parking    | 47.62148597 | -122.30271261 | Private room    |
+| Tranquil_Rooms_at_Maple_Creek_House | 47.69246460 | -122.28688377 | Private room    |
+| Modern_Loft_with_Space_Needle_View  | 47.61974793 | -122.33913099 | Entire home/apt |
+| green_suite_seattle__dog_friendly   | 47.67158704 | -122.25994740 | Entire home/apt |
+| West_Seattle_Vacation_Junction      | 47.56642871 | -122.38084221 | Entire home/apt |
+| Awesome_Fremont_Townhouse_Room_1    | 47.66036136 | -122.35268848 | Private room    |
+| Maple_Creek_House_in_Wedgwood       | 47.69270118 | -122.28547904 | Private room    |
+| Amazing_3BR_Fremont_Townhome        | 47.66032785 | -122.35222650 | Entire home/apt |
+| U_District_Backyard_Cottage__Loft   | 47.67563437 | -122.29568727 | Entire home/apt |
+| Spacious_Private_Daylight_Basement  | 47.68752704 | -122.35608108 | Entire home/apt |
+| 1_Bedroom_Beautiful_Tuscan_Oasis_   | 47.61483233 | -122.34902912 | Entire home/apt |
+| 1_Bedroom_Sweeping_View_Oasis       | 47.61627389 | -122.34412623 | Entire home/apt |
+| Wonderful_2_Bedroom_Modern_Oasis    | 47.61418994 | -122.34495731 | Entire home/apt |
+| Guest_Studio__North_Capitol_Hill    | 47.63877215 | -122.31843554 | Entire home/apt |
+| Seattle_Ballard_Guestsuite___       | 47.67171434 | -122.36588760 | Entire home/apt |
+| Large_Tranquil_Room_in_Wedgwood     | 47.69420772 | -122.28624917 | Private room    |
+| Study_Den_in_Tranquil_Setting       | 47.69281515 | -122.28533647 | Private room    |
+| Light_and_airy_steps_to_the_Lake    | 47.56168143 | -122.27212283 | Private room    |
+| Olympics_LakeUnion_Downtown         | 47.63667440 | -122.32315504 | Entire home/apt |
+| Get_Cozy_In_West_Seattle            | 47.52578916 | -122.34451200 | Private room    |
+| Spacious_Designer_Condo             | 47.60238656 | -122.29534697 | Entire home/apt |
+| Seattle_North_Beach_B_R_Guest_Suite | 47.69757112 | -122.37587544 | Entire home/apt |
+| Convenient_Capitol_Hill_Location    | 47.62043351 | -122.31688442 | Private room    |
+| Miradina_Al_Lago                    | 47.68472182 | -122.33882146 | Private room    |
+| West_Seattle_Admiral_calm__quiet    | 47.58239155 | -122.39447761 | Private room    |
+| Charming_Apt_VERY_Central_Location  | 47.60593225 | -122.33083232 | Entire home/apt |
+| Private_Cottage_in_Phinney_Ridge    | 47.67114066 | -122.35191437 | Entire home/apt |
+| Modern_Flat_Quick_Walk_2_Green_Lake | 47.68427308 | -122.32661592 | Entire home/apt |
+| Beautiful_Central_Green_Lake_Flat   | 47.68415691 | -122.32597215 | Entire home/apt |
+| Beautiful_Artistic_Home_near_UW     | 47.66962389 | -122.29996437 | Entire home/apt |
+| Haller_Lake_Restored_Log_Cabin      | 47.71488519 | -122.33296365 | Entire home/apt |
+| Magazine_Profiled_View_Gorgeous_    | 47.64528801 | -122.37264243 | Entire home/apt |
+| Beacon_Hill_Cottage_in_the_City     | 47.55256632 | -122.30434964 | Entire home/apt |
+| Oasis_in_the_City                   | 47.59704962 | -122.29988678 | Entire home/apt |
+| Modern_LightFilled_Fremont_Flat     | 47.65437102 | -122.35745378 | Entire home/apt |
+| SuiteOffice_in_Gorgeous_View_Home   | 47.56841923 | -122.40661651 | Private room    |
+| Great_views_of_the_Space_Needle     | 47.62151025 | -122.32878667 | Entire home/apt |
+| Teeny_Tiny_Guestyhouse_             | 47.65198911 | -122.35026452 | Private room    |
+| MotherinLaw_Apartment_in_Seattle    | 47.66922781 | -122.33517372 | Entire home/apt |
+| Green_Lake_Guest_Suite_private_apt  | 47.68226061 | -122.34345000 | Entire home/apt |
+| Vintage_Capitol_Hill__1_Pkg_Spot    | 47.62142096 | -122.31641953 | Entire home/apt |
+| Bright_Cheery_Room_in_Seattle_House | 47.55508435 | -122.26455326 | Private room    |
+| Cozy_Urban_Studio_in_Garden_Setting | 47.62168650 | -122.32061885 | Entire home/apt |
+| Metrobilly_Retreat                  | 47.61893903 | -122.29212342 | Private room    |
+| N_Beacon_Hill_Super_Private_Room    | 47.58378670 | -122.31676968 | Private room    |
+| Private_1BR_Pkg_5_to_Charity        | 47.61231304 | -122.29825216 | Entire home/apt |
+| West_Seattle_The_Full_Moon_Cottage  | 47.55483989 | -122.38705658 | Entire home/apt |
+| Quiet_room_in_Northeast_Seattle     | 47.70505900 | -122.28098254 | Private room    |
+| Cottage_in_West_Seattle_117night    | 47.55594366 | -122.37994745 | Entire home/apt |
+| Adorable_New_Artist_Apartment_      | 47.54778741 | -122.37800160 | Entire home/apt |
+| Restful_Room_wBath_in_West_Ballard  | 47.66992138 | -122.40146385 | Private room    |
+| Cottage_in_West_Seattle__Main_BR    | 47.55766967 | -122.37900981 | Private room    |
+| Apt_on_Lake_Union__inHeart_of_City  | 47.64034606 | -122.34208825 | Entire home/apt |
+| Historic_House_at_Seattle_Center    | 47.62767352 | -122.35861081 | Private room    |
+| Private_Bed__Bath_in_Ballard        | 47.67860547 | -122.37404564 | Private room    |
+| Studio_Suite_with_Private_Entry     | 47.67234522 | -122.39892001 | Private room    |
+| 2_Rooms_available_view_of_the_lake  | 47.51145720 | -122.25608100 | Private room    |
+| Private_Apartment__Queen_Anne_Hill  | 47.63548171 | -122.35847776 | Entire home/apt |
+| New_townhouse_NW_of_downtown        | 47.65221579 | -122.38548096 | Private room    |
+| Greenwood_Mother_in_Law_Apartment   | 47.69796137 | -122.34900703 | Entire home/apt |
+| Central_District_Green_GardenStudio | 47.61305967 | -122.29738501 | Entire home/apt |
+| Quiet_Room_Near_UW__Green_Lake      | 47.66667110 | -122.33260175 | Private room    |
+| Beautiful_Update_Craftsman_3BR_3BA  | 47.64413086 | -122.35629917 | Entire home/apt |
+| Sweet_Studio_Water__Mountain_view   | 47.54543065 | -122.39783727 | Entire home/apt |
+| Home_in_Hillman_City                | 47.55284232 | -122.27789357 | Entire home/apt |
+| New_Convenient_E_Capitol_Hill_House | 47.62233688 | -122.29743575 | Entire home/apt |
+| Spacious_Studio_Near_Lincoln_Park   | 47.53570065 | -122.38631241 | Entire home/apt |
+| Slanted_Ivy_Vacation_Rental         | 47.61917750 | -122.30701647 | Entire home/apt |
+| Modern_Retreat_High_End_Amenities   | 47.59566143 | -122.31801596 | Entire home/apt |
+| Seattle_Phinney_Ridge_Ballard       | 47.67770465 | -122.35983885 | Entire home/apt |
+| Cozy_Seattle_Apartment_Near_UW_     | 47.67207657 | -122.28281643 | Entire home/apt |
+| Bright__Spacious_Studio             | 47.61551227 | -122.33728602 | Entire home/apt |
+| contemporary_art_loft_downtown_7    | 47.59908075 | -122.32559126 | Private room    |
+| 2BR1BA_Capitol_Hill_BungalowLoft    | 47.62162739 | -122.31692931 | Entire home/apt |
+| THE_5STAR_HOUSE_                    | 47.69989837 | -122.36614180 | Private room    |
+| Relaxing_Garden_Cottage_w_Hot_Tub   | 47.56129704 | -122.28121861 | Entire home/apt |
+| Awesome_Fremont_Townhome_Room_2     | 47.66139552 | -122.35225581 | Private room    |
+| SPACIOUS_2BD2BA_PRKG_FREE_WiFi_     | 47.61533865 | -122.34790529 | Entire home/apt |
+| Private_Large_RoomBath_in_Ballard   | 47.68230928 | -122.37874966 | Private room    |
+| Fun_home_in_Funky_Fremont_Seattle_  | 47.65692477 | -122.36093488 | Entire home/apt |
+| SALE_WiFi__Luxurious_Parking_Inc    | 47.61386020 | -122.34878734 | Entire home/apt |
+| Fun_apartment_in_Ballard_Seattle    | 47.69102796 | -122.36815465 | Entire home/apt |
+| Sunny_Cottage_near_Discovery_Park   | 47.66119734 | -122.40144552 | Private room    |
+| Classic_beauty_room_wwarm_heat      | 47.54969071 | -122.31867911 | Private room    |
+| Large_BallardFremont_apartment      | 47.66807053 | -122.36208616 | Entire home/apt |
+| Peaceful_NE_Seattle_guest_room      | 47.70638974 | -122.28074562 | Private room    |
+| West_Seattle_room_with_private_bath | 47.57326556 | -122.37436117 | Private room    |
+| Modern_Apartment_near_45th_St__UW   | 47.66230982 | -122.32684880 | Entire home/apt |
+| Quiet_Greenlake_house_w_balcony     | 47.66817600 | -122.33737079 | Private room    |
+| Scandinavian_Queen_Anne_Home        | 47.64328624 | -122.37581862 | Entire home/apt |
+| Stylish_Queen_Anne_Apartment        | 47.63628904 | -122.37102520 | Entire home/apt |
+| Incredible_View_Lake_Union_Condo    | 47.64687986 | -122.32417357 | Entire home/apt |
+| Sleepy_North_Admiral_West_Seattle   | 47.58143268 | -122.39410903 | Entire home/apt |
+| Phinney_Oasis_in_Seattle            | 47.67716562 | -122.36169283 | Entire home/apt |
+| 1_Bed_Territorial_ViewBook_now      | 47.61602298 | -122.34449164 | Entire home/apt |
+| 1BR_Cozy_Apartment_in_Capitol_Hill  | 47.61596662 | -122.32693777 | Entire home/apt |
+| Modern__New_MIL_Apt_in_N_Ballard    | 47.68648953 | -122.36846188 | Entire home/apt |
+| Storybook_Tudor_house_at_GreenLake  | 47.68378067 | -122.34201282 | Entire home/apt |
+| Fremont_Farmhouse                   | 47.65420514 | -122.35260367 | Entire home/apt |
+| 2bed_Rm_Inner_City_Suite_Near_Dwtn  | 47.57529097 | -122.30204873 | Entire home/apt |
+| Great_1_Queen_Bed_Near_Downtown_SEA | 47.57625195 | -122.30367586 | Private room    |
+| NorthBeach_fantastic_water_view     | 47.69818119 | -122.38710133 | Entire home/apt |
+| 2_Bedroom_Harbor_and_City_Oasis     | 47.61577535 | -122.34871858 | Entire home/apt |
+| Xmas_Sale_1_bd1_ba_WiFi_CLEAN_Prkg  | 47.61607469 | -122.34667748 | Entire home/apt |
+| 1_BdRm_BunkBed_for_3_Near_Downtown  | 47.57741482 | -122.30229961 | Private room    |
+| Charming_craftsman_3_bdm_house      | 47.63291840 | -122.37247063 | Entire home/apt |
+| Central_Guest_Room_Stunning_View    | 47.62465019 | -122.31688945 | Private room    |
+| Luxury_Location_Great_For_Family    | 47.59379732 | -122.30514884 | Entire home/apt |
+| 11th_Avenue_Inn_Bed_and_Breakfast   | 47.61988282 | -122.31961256 | Private room    |
+| Seattle_Sojourn__Fremont_Guest_Apt  | 47.65758911 | -122.35437620 | Entire home/apt |
+| The_Nest_in_the_Heart_of_the_City   | 47.61148112 | -122.32912106 | Entire home/apt |
+| Urban_Chic_West_Seattle_Apartment   | 47.56783012 | -122.37004569 | Entire home/apt |
+| Unparalleled__Unique_Downtown_Loft  | 47.61656414 | -122.35144156 | Entire home/apt |
+| 2_Bed_Seattle_Oasis                 | 47.61508703 | -122.34714242 | Entire home/apt |
+| 3BR_Central_District_House          | 47.59797618 | -122.30087989 | Entire home/apt |
+| Cozy_Spacious_2_BD_in_Roosevelt     | 47.66902314 | -122.31588247 | Entire home/apt |
+| Cap_Hill_MountainLake_View_Oasis    | 47.62387529 | -122.30133480 | Entire home/apt |
+| 1_Bedroom_Fantastic_View_Oasis      | 47.61497282 | -122.34855450 | Entire home/apt |
+| Sunny_Home_w_Views_in_Wallingford   | 47.65386101 | -122.33849652 | Entire home/apt |
+| Large_comfy_light_garden_studio     | 47.72741971 | -122.32763885 | Entire home/apt |
+| Vintage_Capitol_Hill__2_Pkg_Spots   | 47.62336216 | -122.31667782 | Entire home/apt |
+| Family_Friendly_Modern_Seattle_Home | 47.59570850 | -122.29756856 | Entire home/apt |
+| Midcentury_Modern_Apartment         | 47.68066818 | -122.35812669 | Entire home/apt |
+| large_modern_unit__fab_location     | 47.61880494 | -122.31884912 | Entire home/apt |
+| spacious_great_location             | 47.61917439 | -122.32184919 | Entire home/apt |
+| Charming_Wallingford_Apartment      | 47.65588494 | -122.33213597 | Entire home/apt |
+| Seattle_Turret_House_Apt_4          | 47.61037712 | -122.31156584 | Entire home/apt |
+| St_Johns_Apartments_300_one_BR      | 47.61367456 | -122.32202827 | Entire home/apt |
+| West_Seattle_Vacation_Cottage_      | 47.58002881 | -122.39025109 | Entire home/apt |
+| VACATION_HOUSE_WEST_SEATTLE_        | 47.50508834 | -122.37823882 | Entire home/apt |
+| Greenwood_1926_Craftsman            | 47.69985569 | -122.34811668 | Entire home/apt |
+| Sunny_Bedroom_wView_Wallingford     | 47.65389856 | -122.33806919 | Private room    |
+| St_Johns_Apartments_309_Two_BR      | 47.61304301 | -122.32321421 | Entire home/apt |
+| A_min_away_from_Space_Needle        | 47.62107188 | -122.35312436 | Entire home/apt |
+| contemporary_art_loft_downtown_17   | 47.59901630 | -122.32707988 | Private room    |
+| Paint_by_Number_Paradise            | 47.57130286 | -122.30967375 | Entire home/apt |
+| Large_Luxury_Lakeside_Seattle_Home  | 47.68354474 | -122.33091114 | Entire home/apt |
+| Private_Guest_Studio_Phinney_Ridge  | 47.68348315 | -122.35705389 | Private room    |
+| Craftsman_Charmer_w_Stunning_Views  | 47.66624017 | -122.36091775 | Entire home/apt |
+| Best_Coffee_in_Seattle_1_Block_Away | 47.62569810 | -122.32095362 | Entire home/apt |
+| Luxury_Condo_with_lake_union_views_ | 47.62836568 | -122.32626047 | Entire home/apt |
+| Modern_on_Capitol_Hill_Nov_Sale     | 47.62177825 | -122.32378709 | Entire home/apt |
+| Luxurious_and_new_on_Capitol_Hill   | 47.62202056 | -122.32398539 | Entire home/apt |
+| Backyard_Studio_Apartment_near_UW   | 47.67675310 | -122.29397185 | Entire home/apt |
+| Fantastic_View_Close_to_Light_Rail  | 47.58513027 | -122.31526145 | Private room    |
+| 21_Plush_Modern_Hilltop_Retreat     | 47.57576948 | -122.31636209 | Entire home/apt |
+| Sweet_home_in_the_heart_of_Fremont  | 47.65810701 | -122.35738898 | Entire home/apt |
+| Great_Space__Location__View         | 47.60727498 | -122.33156445 | Entire home/apt |
+| Chic_3_bed_4_bath_Ballard_townhome  | 47.67553327 | -122.37632401 | Entire home/apt |
+| Chill_Central_District_2BR          | 47.60907002 | -122.29613261 | Entire home/apt |
+| Greenwood_Studio                    | 47.69921615 | -122.35071602 | Private room    |
+| Panoramic_View_in_West_Seattle      | 47.58563441 | -122.37933295 | Entire home/apt |
+| Sunny_Bedroom_2_wView_Wallingfrd    | 47.65166320 | -122.33968505 | Private room    |
+| Space_Needle_Views_Downtown_Apt     | 47.61398887 | -122.32778917 | Entire home/apt |
+| Fresh__hip_3br25ba_deck_new         | 47.65883131 | -122.34796651 | Entire home/apt |
+| 3br3ba__modern_roof_deck_garage     | 47.65410157 | -122.33851094 | Entire home/apt |
+| Lovely_Cap_Hill_Studio_has_it_all   | 47.62316699 | -122.30167806 | Entire home/apt |
+| Sweet_Cabin__the_Cherry_Hill_House  | 47.60663951 | -122.30813977 | Private room    |
+| Private_studio_apartment_with_deck  | 47.60587457 | -122.30793069 | Entire home/apt |
+| Beautiful_downtown_Apt_Top_floor    | 47.61582776 | -122.34077730 | Entire home/apt |
+| Cozy_Bedroom__Cherry_Hill_House     | 47.60552279 | -122.30753012 | Private room    |
+| 2_BR_Craftsman_West_Seattle_Home    | 47.56965759 | -122.36171128 | Entire home/apt |
+| Fantastic_mountain_view_2bdrm_home  | 47.62289407 | -122.32557497 | Entire home/apt |
++-------------------------------------+-------------+---------------+-----------------+
+200 rows in set (0.00 sec)
+
+mysql>
+

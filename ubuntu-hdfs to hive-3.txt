@@ -1,0 +1,140 @@
+hdoop@DESKTOP-1I4U3C3:~$ hive
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/home/hdoop/apache-hive-3.1.2-bin/lib/log4j-slf4j-impl-2.10.0.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/home/hdoop/hadoop-3.3.4/share/hadoop/common/lib/slf4j-reload4j-1.7.36.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+Hive Session ID = 5c30a4ec-bfad-4219-88cd-6b2ad6284d24
+
+Logging initialized using configuration in jar:file:/home/hdoop/apache-hive-3.1.2-bin/lib/hive-common-3.1.2.jar!/hive-log4j2.properties Async: true
+Hive Session ID = f8a0ef8f-3374-4562-b589-0dc3bb26be27
+Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+hive> create database capstone;
+OK
+Time taken: 2.169 seconds
+hive> use capstone;
+OK
+Time taken: 0.031 seconds
+CREATE TABLE listings_airbnb (
+              id INT,
+              name STRING,
+              host_id INT,
+              host_name STRING,
+              neighbourhood STRING,
+              neighbourhood_group_cleansed STRING,
+              latitude DOUBLE,
+              longitude DOUBLE,
+              room_type STRING,
+              price STRING,
+              minimum_nights INT,
+              availability_365 INT,
+              number_of_reviews INT,
+              last_review DATE,
+              calculated_host_listings_count INT,
+              reviews_per_month DOUBLE,
+              city STRING,
+              state STRING,
+              amenities STRING,
+              property_type STRING
+          )
+          ROW FORMAT DELIMITED
+          FIELDS TERMINATED BY '\t';
+Time taken: 2.03 seconds
+hive> LOAD DATA INPATH 'airbnb_listings/part-m-00000' INTO TABLE  listings_airbnb;
+Loading data to table capstone.listings_airbnb
+OK
+Time taken: 3.008 seconds
+hive> LOAD DATA INPATH 'airbnb_listings/part-m-00001' INTO TABLE  listings_airbnb;
+Loading data to table capstone.listings_airbnb
+OK
+Time taken: 0.49 seconds
+hive> LOAD DATA INPATH 'airbnb_listings/part-m-00002' INTO TABLE  listings_airbnb;
+Loading data to table capstone.listings_airbnb
+OK
+Time taken: 0.452 seconds
+hive> LOAD DATA INPATH 'airbnb_listings/part-m-00003' INTO TABLE  listings_airbnb;
+Loading data to table capstone.listings_airbnb
+OK
+Time taken: 1.613 seconds
+hive> select count(*) from listings_airbnb;
+Query ID = hdoop_20230919185920_75b903c9-cfed-48c3-8e6b-944c233053d8
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1695100181491_0005, Tracking URL = http://DESKTOP-1I4U3C3.:8088/proxy/application_1695100181491_0005/
+Kill Command = /home/hdoop/hadoop-3.3.4/bin/mapred job  -kill job_1695100181491_0005
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2023-09-19 18:59:54,161 Stage-1 map = 0%,  reduce = 0%
+2023-09-19 19:00:01,372 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 2.12 sec
+2023-09-19 19:00:08,556 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 4.71 sec
+MapReduce Total cumulative CPU time: 4 seconds 710 msec
+Ended Job = job_1695100181491_0005
+MapReduce Jobs Launched:
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 4.71 sec   HDFS Read: 715052 HDFS Write: 104 SUCCESS
+Total MapReduce CPU Time Spent: 4 seconds 710 msec
+OK
+3818
+Time taken: 55.431 seconds, Fetched: 1 row(s)
+hive> select * from listings_airbnb limit 50;
+OK
+3335    Sweet_Seattle_Urban_Homestead_2_Bdr     4193    Jessica Dunlap  Rainier Valley  47.52984647     -122.27583952  Entire home/apt  0.0     2       309     0       null    4       0.0     Seattle WA      "{""Wireless Internet"" Kitchen
+4291    Sunrise_in_Seattle_Master_Suite 35749   Jess & Joey     Roosevelt       Other neighborhoods     47.68725101    -122.31313027    Private room    0.0     2       365     35      2015-10-18      5       1.14    Seattle WA      "{TV   ""Cable TV""
+5682    Cozy_Studio_min_to_downtown_WiFi        8993    Maddy   South Delridge  Delridge        47.5239795      -122.3598906    Entire home/apt 0.0     3       309     297     2015-12-14      1       4.21    Seattle WA      "{TV    Internet
+6606    Fab_private_seattle_urban_cottage       14942   Joyce   Wallingford     Other neighborhoods     47.65410861    -122.33760529    Entire home/apt 0.0     2       365     52      2015-12-28      1       0.66    Seattle WA      "{TV   ""Cable TV""
+7369    launchingpadlandingpad_ 19425   Shireen Broadway        Capitol Hill    47.61539738     -122.32563956   Entire home/apt 0.0     1       53      40      2012-03-04      1       0.5     Seattle WA      "{TV    ""Wireless Internet""
+9419    Golden_Sun_vintage_warmsunny    30559   Angielena       Georgetown      Other neighborhoods     47.5506197     -122.32013541    Private room    0.0     2       365     79      2015-12-07      5       1.19    Seattle WA      "{Internet      ""Wireless Internet""
+9460    Downtown_Convention_Ctr_BB__Nice        30832   Siena   First Hill      Downtown        47.60800998     -122.32873867   Private room    0.0     3       57      240     2015-12-30      2       3.11    Seattle WA      "{TV    ""Cable TV""
+9531    The_Adorable_Sweet_Orange_Craftsman     31481   Cassie  The Junction    West Seattle    47.55538926     -122.38473863   Entire home/apt 0.0     3       180     26      2015-12-20      2       0.54    Seattle WA      "{TV    ""Cable TV""
+9534    The_Coolest_Tangerine_Dream_MIL_        31481   Cassie  The Junction    West Seattle    47.55670065     -122.38497351   Entire home/apt 0.0     2       262     14      2015-10-14      2       0.29    Seattle WA      "{TV    ""Cable TV""
+9596    the_down_home_central_and_fab   14942   Joyce   Wallingford     Other neighborhoods     47.65478743     -122.33651988   Entire home/apt 0.0     3       363     32      2015-09-26      1       0.58    Seattle WA      "{TV    ""Cable TV""
+10385   Upscale_Seattle_Hotel_Alternative_      35749   Jess & Joey     Maple Leaf      Northgate       47.69571858    -122.31194392    Private room    0.0     2       365     74      2015-10-09      5       0.97    Seattle WA      "{TV   ""Cable TV""
+10695   Private_2_Rooms__1_Bath_        35749   Jess & Joey     Maple Leaf      Northgate       47.69720097     -122.31348103   Private room    0.0     2       365     12      2015-09-06      5       0.18    Seattle WA      "{TV    ""Cable TV""
+11012   the_orange_house_quiet_n_central_       14942   Joyce   Wallingford     Other neighborhoods     47.65447679    -122.33646426    Entire home/apt 0.0     3       365     47      2015-11-29      1       0.65    Seattle WA      "{TV   ""Cable TV""
+11411   Hotel_Room__Bath_Alternative    35749   Jess & Joey     Maple Leaf      Northgate       47.69573695     -122.31316341   Private room    0.0     2       365     47      2015-08-17      5       0.66    Seattle WA      "{TV    ""Cable TV""
+13068   THE_URBAN_OASIS_Great_Location  50893   Chris   Capitol Hill    Capitol Hill    47.61854651     -122.32631807  Entire home/apt  0.0     3       344     26      2015-12-15      9       0.67    Seattle WA      "{TV    ""Cable TV""
+14386   Quiet_Cozy_Upstairs_BR_Green_Lake       39377   Bob     Green Lake      Other neighborhoods     47.68724568    -122.3346957     Private room    0.0     1       316     30      2015-11-25      3       0.46    Seattle WA      "{Internet      ""Wireless Internet""
+15108   Green_Lake_Private_Ground_Floor_BR      39377   Bob     Green Lake      Other neighborhoods     47.68826555    -122.33585552    Private room    0.0     1       306     42      2015-11-23      3       0.77    Seattle WA      "{Internet      ""Wireless Internet""
+17951   West_Seattle_The_Starlight_Studio       33360   Laura   The Junction    West Seattle    47.55538173     -122.38622263   Entire home/apt 0.0     2       307     21      2015-12-31      3       0.31    Seattle WA      "{TV    ""Cable TV""
+19611   1_Bedroom_Downtown_Seattle_Oasis        74305   Darik   Belltown        Downtown        47.61561135     -122.34592673   Entire home/apt 0.0     2       151     26      2015-11-12      6       0.37    Seattle WA      "{TV    ""Cable TV""
+19619   1_Bedroom_Cosmopolitan_Water_View_      74305   Darik   Belltown        Downtown        47.61361553     -122.34705781   Entire home/apt 0.0     2       137     17      2015-05-02      6       0.26    Seattle WA      "{TV    ""Cable TV""
+19623   2_Bedroom_Downtown_Seattle_Oasis        74305   Darik   Belltown        Downtown        47.61642986     -122.34634407   Entire home/apt 0.0     2       172     38      2015-10-25      6       0.54    Seattle WA      "{TV    ""Cable TV""
+20868   2_BR_Spacious_MotherinLaw_Condo 35749   Jess & Joey     Maple Leaf      Northgate       47.69538567     -122.31307495   Entire home/apt 0.0     2       358     91      2015-11-29      5       1.35    Seattle WA      "{TV    ""Cable TV""
+20927   Cottage_in_the_Heart_of_Ballard 79450   Brad & Liz      Ballard Ballard 47.67333939     -122.39512028   Entire home/apt 0.0     2       341     244     2015-12-26      2       3.64    Seattle WA      "{TV    ""Cable TV""
+20928   Victorian_in_the_Heart_of_Ballard       79450   Brad & Liz      Ballard Ballard 47.6736071      -122.39380286  Entire home/apt  0.0     2       334     44      2015-12-23      2       6.23    Seattle WA      "{Internet      ""Wireless Internet""
+23192   Harrison_Modern_Mad_Men_Suite_  90437   Ian     Capitol Hill    Capitol Hill    47.62236602     -122.315918    Entire home/apt  0.0     3       340     7       2015-08-18      1       0.22    Seattle WA      "{TV    ""Cable TV""
+23356   3bd_2bt_great_bargain__sleep_610        91286   Tonyhai Holly Park      Beacon Hill     47.5342764      -122.28160623   Entire home/apt 0.0     3       327     6       2015-06-21      1       0.1     Seattle WA      "{""Cable TV"" ""Wireless Internet""
+23430   1_Bedroom_Modern_Water_View_Condo       74305   Darik   Belltown        Downtown        47.61419607     -122.34445769   Entire home/apt 0.0     2       158     22      2015-10-17      6       0.33    Seattle WA      "{TV    ""Cable TV""
+23919   Luxury_Treehouse_Garden_Cottage 95510   Peggy   Windermere      Other neighborhoods     47.66840976     -122.2702469    Entire home/apt 0.0     3       317     6       2015-08-31      1       0.09    Seattle WA      "{TV    ""Cable TV""
+24212   2_Bedroom_Water_View_Oasis      74305   Darik   Belltown        Downtown        47.61539627     -122.34866375  Entire home/apt  0.0     2       144     29      2015-12-08      6       0.46    Seattle WA      "{TV    ""Cable TV""
+25002   Beautiful_Quiet_Friendly_Ballard        102684  Amanda  Ballard Ballard 47.67941169     -122.37053963   Entire home/apt 0.0     1       308     404     2015-12-23      1       5.82    Seattle WA      "{TV    ""Cable TV""
+26116   Adult_Only_Quiet_2br_Capitol_Hill       110248  Jamilah Capitol Hill    Capitol Hill    47.61742598     -122.32675627   Entire home/apt 0.0     2       365     110     2015-12-26      1       1.71    Seattle WA      "{TV    ""Cable TV""
+30712   Cozy_Ballard_Apartment  107605  Al      Ballard Ballard 47.67890136     -122.38186327   Entire home/apt 0.0    358      64      2015-11-09      1       0.95    Seattle WA      "{""Wireless Internet"" Kitchen
+37234   Ballard_Walk_to_Salt_Water_Beach        160789  Darrell Ballard Ballard 47.68804808     -122.39231      Entire home/apt 0.0     3       311     0       null    1       0.0     Seattle WA      "{TV    Internet
+38545   3brmodernfire_place_chef_kitchen        165390  Seth    Wallingford     Other neighborhoods     47.65302813    -122.34268278    Entire home/apt 0.0     1       357     67      2015-12-28      4       1.07    Seattle WA      "{TV   ""Cable TV""
+41401   Home_Away_From_Home__MIL_Suite____      180441  Pina    North Beacon Hill       Beacon Hill     47.56034898    -122.31402319    Entire home/apt 0.0     10      337     26      2015-07-26      1       0.4     Seattle WA      "{TV   ""Cable TV""
+43373   Big_sunny_central_house_with_view       189356  Michael Wallingford     Other neighborhoods     47.65055156    -122.33058866    Private room    0.0     2       338     182     2016-01-01      1       2.77    Seattle WA      "{""Wireless Internet"" Kitchen
+46022   Cottage_in_West_Seattle__Guest_BR       205412  Meg     The Junction    West Seattle    47.55663242     -122.37720365   Private room    0.0     1       363     5       2012-04-02      2       0.08    Seattle WA      "{TV    ""Cable TV""
+47196   Capitol_Hill_Suite__Free_Parking        212740  Shalini Stevens Capitol Hill    47.62148597     -122.30271261  Private room     0.0     1       348     353     2015-12-14      1       5.44    Seattle WA      "{""Wireless Internet""Heating
+47491   Tranquil_Rooms_at_Maple_Creek_House     215230  Carol   Wedgewood       Other neighborhoods     47.6924646     -122.28688377    Private room    0.0     3       166     37      2015-07-27      4       0.57    Seattle WA      "{""Wireless Internet"" Kitchen
+48319   Modern_Loft_with_Space_Needle_View      220013  Erik            Cascade 47.61974793     -122.33913099   Entire home/apt 0.0     3       122     21      2012-08-06      1       0.38    Seattle WA      "{TV    ""Cable TV""
+48848   green_suite_seattle__dog_friendly       212404  Piper + Kent    Windermere      Other neighborhoods     47.67158704     -122.2599474    Entire home/apt 0.0     2       172     22      2015-06-30      1       0.35    Seattle WA     "{TV     ""Cable TV""
+50233   West_Seattle_Vacation_Junction  230140  Marie   Genesee West Seattle    47.56642871     -122.38084221   Entire home/apt 0.0     3       237     20      2015-09-25      1       0.36    Seattle WA      "{""Cable TV""  ""Wireless Internet""
+51826   Awesome_Fremont_Townhouse_Room_1        238982  Maria & Graham  Fremont Other neighborhoods     47.66036136    -122.35268848    Private room    0.0     1       365     59      2015-09-01      3       0.93    Seattle WA      "{TV   Internet
+52525   Maple_Creek_House_in_Wedgwood   215230  Carol   Wedgewood       Other neighborhoods     47.69270118     -122.28547904   Private room    0.0     3       365     26      2015-11-23      4       0.4     Seattle WA      "{""Wireless Internet"" Kitchen
+53803   Amazing_3BR_Fremont_Townhome    238982  Maria & Graham  Fremont Other neighborhoods     47.66032785     -122.3522265    Entire home/apt 0.0     7       308     41      2015-09-16      3       0.65    Seattle WA      "{TV    Internet
+53867   U_District_Backyard_Cottage__Loft       187753  Kevin & Jennifer        Ravenna Other neighborhoods     47.67563437     -122.29568727   Entire home/apt 0.0     2       20      287     2015-11-28      1       4.52    Seattle WA     "{TV     Internet
+58503   Spacious_Private_Daylight_Basement      157262  Visala  Greenwood       Other neighborhoods     47.68752704    -122.35608108    Entire home/apt 0.0     1       361     76      2015-11-23      1       4.91    Seattle WA      "{TV   ""Cable TV""
+59708   1_Bedroom_Beautiful_Tuscan_Oasis_       74305   Darik   Belltown        Downtown        47.61483233     -122.34902912   Entire home/apt 0.0     2       163     6       2015-11-25      6       0.12    Seattle WA      "{TV    ""Cable TV""
+59827   1_Bedroom_Sweeping_View_Oasis   74305   Darik   Belltown        Downtown        47.61627389     -122.34412623  Entire home/apt  0.0     2       204     13      2015-12-20      6       0.21    Seattle WA      "{TV    ""Cable TV""
+59838   Wonderful_2_Bedroom_Modern_Oasis        74305   Darik   Belltown        Downtown        47.61418994     -122.34495731   Entire home/apt 0.0     2       154     70      2015-11-08      6       1.14    Seattle WA      "{TV    ""Cable TV""
+Time taken: 0.336 seconds, Fetched: 50 row(s)
+hive>
+
+
+
