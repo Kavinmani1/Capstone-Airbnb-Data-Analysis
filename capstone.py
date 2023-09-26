@@ -68,52 +68,40 @@ if __name__ == "__main__":
 
 
      # Additional analysis: Calculate maximum and minimum prices for each neighborhood and room type combination
-    query4 = airbnb_data.groupBy("host_name", "neighbourhood", "room_type") \
+    query3 = airbnb_data.groupBy("host_name", "neighbourhood", "room_type") \
             .agg(F.min("price").alias("min_price"), F.max("price").alias("max_price"), F.first("host_id").alias("host_id")) \
             .show()
 
-    # Analyze market trends using SQL queries
-    query5 = airbnb_data.groupBy("host_id", "host_name", "neighbourhood", "room_type") \
-        .agg({"price": "avg", "price": "max", "price": "min", "room_type": "count"}) \
-        .withColumnRenamed("avg(price)", "avg_price") \
-        .withColumnRenamed("max(price)", "max_price") \
-        .withColumnRenamed("min(price)", "min_price") \
-        .withColumnRenamed("count(room_type)", "listing_count")
-    query5.show()
 
     # Analyze room type trends using SQL queries
-    query6 = airbnb_data.groupBy("room_type") \
+    query4 = airbnb_data.groupBy("room_type") \
         .agg({"price": "avg", "price": "max", "price": "min", "room_type": "count"}) \
         .withColumnRenamed("avg(price)", "avg_price") \
         .withColumnRenamed("max(price)", "max_price") \
         .withColumnRenamed("min(price)", "min_price") \
         .withColumnRenamed("count(room_type)", "listing_count") \
         .orderBy("room_type")
-    query6.show()
+    query4.show()
 
 
-    # Analysis 2: Number of listings by room type
-    query7 = airbnb_data.groupBy("room_type").count().orderBy(col("count").desc())
-    query7.show()
+    #  Number of listings by room type
+    query5 = airbnb_data.groupBy("room_type").count().orderBy(col("count").desc())
+    query5.show()
 
-    # Analysis 3: Average minimum nights by neighborhood and room type
-    query8 = airbnb_data.groupBy("neighbourhood", "room_type") \
+    #  Average minimum nights by neighborhood and room type
+    query6 = airbnb_data.groupBy("neighbourhood", "room_type") \
         .agg({"minimum_nights": "avg"}) \
         .withColumnRenamed("avg(minimum_nights)", "avg_min_nights") \
         .orderBy("neighbourhood" )
-    query8.show()
+    query6.show()
 
 
-    query9 = airbnb_data.groupBy("host_name").count().orderBy(col("count").desc()).limit(10)
-    query9.show()
+    query7 = airbnb_data.groupBy("host_name").count().orderBy(col("count").desc()).limit(10)
+    query7.show()
 
 
     df.write.mode("overwrite").option("header", "true").saveAsTable("capstone.airbnb_transform")
 
     # Stop the SparkSessio
-
-    # Perform operations on the DataFrame (df) as needed
-
-    # Stop the SparkSession
     spark.stop()
                   
