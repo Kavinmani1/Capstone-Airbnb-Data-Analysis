@@ -57,7 +57,7 @@ if __name__ == "__main__":
     query1 = airbnb_data.groupBy("city").count().withColumnRenamed("count", "listing_count")
     query1.show()
 
-    # Run a Spark SQL query to calculate the average price per night for listings in each city
+    # Run a Spark SQL query to calculate the average price per day for listings in each city
     query2 = airbnb_data.select("city", "price") \
         .withColumn("price", regexp_replace(col("price"), "[$,]", "").cast("decimal(10,2)")) \
         .groupBy("city") \
