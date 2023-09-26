@@ -20,11 +20,6 @@ if __name__ == "__main__":
 
     PriceNew = df.withColumn("price", regexp_replace(col("price"), "[$,]", "").cast("double"))
 
-    # Convert minimum_nights and availability_365 columns to integers
-    convert = PriceNew \
-        .withColumn("minimum_nights", col("minimum_nights").cast("int")) \
-        .withColumn("availability_365", col("availability_365").cast("int"))
-
     # Fill missing values in reviews_per_month with 0
     convert1 = convert.withColumn("reviews_per_month", coalesce(col("reviews_per_month"), lit(0.0)))
 
