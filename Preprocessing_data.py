@@ -50,12 +50,6 @@ selected_columns = data[columns_to_select]
 selected_columns = selected_columns.copy()
 
 
-# In[24]:
-
-
-selected_columns['name'] = selected_columns['name'].str.replace('[^a-zA-Z0-9\s]', '', regex=True)
-
-
 # In[25]:
 
 
