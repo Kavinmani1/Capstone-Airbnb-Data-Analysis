@@ -10,7 +10,6 @@ if __name__ == "__main__":
     # Create a SparkSession
     spark = SparkSession.builder \
         .appName("Market Analysis") \
-        .config("spark.sql.shuffle.partitions", 3) \
         .enableHiveSupport() \
         .getOrCreate()
 
